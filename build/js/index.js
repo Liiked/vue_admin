@@ -1,1 +1,1 @@
-console.log("object");
+console.log("object");var login=new Vue({el:"#login",data:{name:"hahaha",pass:"32412"},methods:{submit:function(){alert("fffff"),console.log("object"),this.$http.post("/submit",this.data,{emulateJSON:!0},function(o){console.log(o)})}}});
