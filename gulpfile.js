@@ -11,36 +11,37 @@ gulp.task('sass', function() {
     gulp.src('dev/scss/*.scss')
         .pipe(sass())
         .pipe(minicss())
-        .pipe(gulp.dest('build/css'))
+        .pipe(gulp.dest('server/build/css'))
 })
 
 // 静态服务器
 gulp.task('browser-sync', function() {
     browserSync.init({
         server: {
-            baseDir: "./build"
+            baseDir: "./server/build"
         }
     });
 });
 
 gulp.task('jsmin', function() {
     gulp.src('dev/js/*.js')
-        .pipe(uglify())
-        .pipe(gulp.dest('build/js'))
+        // .pipe(uglify())
+        .pipe(gulp.dest('server/build/js'))
 })
 
 gulp.task('movehtml', function() {
     gulp.src('dev/index.html')
-        .pipe(gulp.dest('build'))
+        .pipe(gulp.dest('server/build'))
 })
 
 // watch任务
 gulp.task('watch', ['sass', 'jsmin'], function() {
     browserSync.init({
-        server: "./build"
+        // server: "./server/build"
+        proxy: "localhost:8088"
     });
-    gulp.watch("dev/scss/*.scss", ['sass']);
-    gulp.watch("dev/js/*.js", ['jsmin']);
+    gulp.watch("dev/scss/*.scss", ['sass']).on('change', reload);
+    gulp.watch("dev/js/*.js", ['jsmin']).on('change', reload);
     gulp.watch("dev/*.html", ['movehtml']).on('change', reload);
 })
 
