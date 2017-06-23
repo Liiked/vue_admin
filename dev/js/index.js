@@ -43,8 +43,23 @@ var sidebar = new Vue({
 
 $('head').append('<script src="https://cdn.bootcss.com/vue-router/2.6.0/vue-router.js"></script>')
 
-var Foo = { template: '<div>foo</div>' }
-var Bar = { template: '<div>bar</div>' }
+var Foo = {
+    template: '#main',
+    data() {
+        return {
+            text: 'hahah',
+            title: 'hahahahahahah'
+        }
+    },
+    beforeCreate() {
+        this.$http.get('/main').then(function(res) {
+            var data = res.body
+            this.text = data.text
+            this.title = data.title
+        })
+    }
+}
+var Bar = { template: '#jumbotron' }
 
 var routes = [{
         path: '/',
@@ -58,7 +73,6 @@ var routes = [{
             default: Bar
         }
     },
-    // { path: '/bar', component: Bar }
 ]
 
 
